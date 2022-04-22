@@ -11,7 +11,7 @@ var quizz = {
             "question": "quelle heure est t'il ?",
             "responses": ["12h", "13h","14h"],
             "correct": "14h",
-            "info": "il est effectivement 12 heure sur ma montre",
+            "info": "il est effectivement 14 heure sur ma montre",
             "image": "img/q2.jpeg"
         },
         {
