@@ -10,7 +10,7 @@ var quizz = {
         {
             "question": "quelle heure est t'il ?",
             "responses": ["12h", "13h","14h"],
-            "correct": "12h",
+            "correct": "14h",
             "info": "il est effectivement 12 heure sur ma montre",
             "image": "img/q2.jpeg"
         },
@@ -18,12 +18,20 @@ var quizz = {
             "question": "test question 3 ?",
             "responses": ["1", "2","3"],
             "correct": "3",
-            "info": "fin du test",
+            "info": "question de test sans interet",
             "image": "img/q3.jpg"
+        },
+        {
+            "question": "Qu'elle est la couleur du cheval blanc d'Henri 4 ?",
+            "responses": ["rouge", "vert","blanc"],
+            "correct": "blanc",
+            "info": "le cheval est blanc donc sa couleur est blanc",
+            "image": "img/q4.jpg"
         }
     ]
 }
 
+var nb_reponse_juste = 0
 var choisie = false
 var nb_question = -1
 var score = 0
@@ -38,11 +46,17 @@ function play() {
 
 function next() {
     nb_question++
+    card = document.getElementsByClassName("card")[1]
     if (nb_question >= quizz.questions.length) {
-        document.getElementById("nb_questions").textContent = len_quizz + " / " + len_quizz
         end()
     } else {
         choisie = false
+        if (card.classList.contains("container_good_answer")) {
+            card.classList.remove("container_good_answer")
+        }
+        if (card.classList.contains("container_bad_answer")) {
+            card.classList.remove("container_bad_answer")
+        }
         document.getElementsByClassName("next")[0].style.display = "none"
         question = document.getElementsByClassName("question")[0]
         question.innerHTML = "<h1>" + quizz.questions[nb_question].question + "</h1>"
@@ -58,14 +72,16 @@ function next() {
 }
 
 function check(elem) {
+    card = document.getElementsByClassName("card")[1]
     reponse = document.getElementsByClassName("btn");
     if (choisie != true) {
         choisie = true
         if (elem.textContent == quizz.questions[nb_question].correct) {
-            console.log("juste")
             score += point
+            nb_reponse_juste++
+            card.classList.add("container_good_answer")
         } else {
-            console.log("faux")
+            card.classList.add("container_bad_answer")
         }
         for (let i = 0; i < 3; i++) {
             if (reponse[i].textContent == quizz.questions[nb_question].correct) {
@@ -80,7 +96,21 @@ function check(elem) {
 }
 
 function end() {
-    document.getElementById("end").style.display = "flex";
+    card = document.getElementsByClassName("card")[2]
+    document.getElementById("end").style.display = "block";
     document.getElementById("main").style.display = "none";
+    document.getElementById("nb_questions_end").textContent = len_quizz + " / " + len_quizz
     document.getElementById("end_score").textContent = Math.round(score) + " / 20";
+    if (nb_reponse_juste == 1) {
+        document.getElementsByClassName("rep_juste")[0].innerHTML = "<h2>Tu a eu " + nb_reponse_juste + " réponse juste</h2>"
+    } else {
+        document.getElementsByClassName("rep_juste")[0].innerHTML = "<h2>Tu a eu " + nb_reponse_juste + " réponses justes</h2>"
+    }
+    if (score < 10) {
+        card.classList.add("container_bad_answer")
+        document.getElementsByClassName("main-container")[2].style.backgroundColor = "#d32424"
+    } else {
+        card.classList.add("container_good_answer")
+        document.getElementsByClassName("main-container")[2].style.backgroundColor = "#12af11"
+    }
 }
