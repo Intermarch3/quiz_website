@@ -92,6 +92,7 @@
     align-items: flex-start;
 }
 
+
 .content h1 {
     font-weight: 900;
     font-size: 30px;
@@ -145,6 +146,10 @@
     animation-duration: 0.75s; 
     animation-timing-function: linear;  
     animation-iteration-count: 1; 
+}
+
+.big_question {
+    font-size: 25px!important;
 }
 
 .img.quiz {
